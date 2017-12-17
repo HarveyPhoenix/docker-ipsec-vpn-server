@@ -1,8 +1,10 @@
-version: '2'
+version: '2.1'
 
 services:
   vpn:
-    image: hwdsl2/ipsec-vpn-server
+    image: harveyphoenix/docker-ipsec-vpn-server
+    networks:
+      - ipsecnet
     restart: always
     env_file:
       - ./vpn.env
@@ -14,3 +16,12 @@ services:
     container_name: ipsec-vpn-server
     volumes:
       - /lib/modules:/lib/modules:ro
+networks:
+    ipsecnet:
+      name: ipsecvpn
+      driver: bridge
+      enable_ipv6: false
+      ipam:
+        driver: default
+        # config:
+        #   - subnet: 172.15.234.0/24
